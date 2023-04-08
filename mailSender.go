@@ -1,4 +1,4 @@
-package main
+package mailSender
 
 import (
 	"fmt"
@@ -9,17 +9,17 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func initEnvVars() {
+func InitEnvVars() {
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Can't load .env file")
 	}
 }
 
-func getEnvVar(name string) string {
+func GetEnvVar(name string) string {
 	val, ok := os.LookupEnv(name)
 	if !ok {
-		log.Fatalf("Can't find sender email")
+		log.Fatalf("Can't find %s env variable", name)
 	}
 
 	return val
@@ -31,12 +31,12 @@ type Sender struct {
 	SmtpServer string
 }
 
-func main() {
-	initEnvVars()
+func InitMailSender() {
+	InitEnvVars()
 
-	sEmail := getEnvVar("MAIL_USERNAME")
-	sPass := getEnvVar("MAIL_PASSWORD")
-	smtpServer := getEnvVar("SMTP_SERVER")
+	sEmail := GetEnvVar("MAIL_USERNAME")
+	sPass := GetEnvVar("MAIL_PASSWORD")
+	smtpServer := GetEnvVar("SMTP_SERVER")
 
 	sender := Sender{
 		Email:      sEmail,
